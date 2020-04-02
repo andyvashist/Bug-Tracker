@@ -17,13 +17,16 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-        @RenderBody()
-        <!-- /.content-wrapper -->
-        <!-- Control Sidebar -->
-        @Html.Partial("_LayoutFooter")
-    </div>
-    <!-- ./wrapper -->
-    <!-- REQUIRED SCRIPTS -->
-    @Html.Partial("_LayoutJS")
+        <div class="content-wrapper">
+            @RenderBody()
+            </div>
+            <!-- /.content-wrapper -->
+            <!-- Control Sidebar -->
+            @Html.Partial("_LayoutFooter")
+        </div>
+        <!-- ./wrapper -->
+        <!-- REQUIRED SCRIPTS -->
+        @Html.Partial("_LayoutJS")
+        @RenderSection("Scripts", false)
 </body>
 </html>
