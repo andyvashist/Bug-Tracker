@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using BugTracker.Models;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using BugTracker.Models;
 
 namespace BugTracker.Controllers
 {
@@ -17,7 +13,7 @@ namespace BugTracker.Controllers
         // GET: Developer
         public ActionResult Index()
         {
-            return View(db.Developers.ToList());
+            return View(db.Developers.Include(d => d.Projects).ToList());
         }
 
         // GET: Developer/Details/5
@@ -46,7 +42,7 @@ namespace BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName")] Developer developer)
+        public ActionResult Create(Developer developer)
         {
             if (ModelState.IsValid)
             {

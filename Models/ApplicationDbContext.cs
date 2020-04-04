@@ -20,16 +20,34 @@ namespace BugTracker.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Project> Projects { get; set; }
-        public DbSet<Developer> Developers { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
-
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<Developer> Developers { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Project>()
+                .HasMany(p => p.Developers)
+                .WithMany(d => d.Projects)
+                .Map(m =>
+                {
+                    m.ToTable("ProjectDevelopers");
+                    m.MapLeftKey("ProjectId");
+                    m.MapRightKey("DeveloperId");
+                });
+
+            base.OnModelCreating(modelBuilder);
+        }
+
     }
 }

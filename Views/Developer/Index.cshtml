@@ -21,20 +21,29 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var developer in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => developer.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => developer.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => developer.Projects)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = developer.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = developer.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = developer.Id })
+            </td>
+        </tr>
+    }
+
 
 </table>
+@foreach (var developer in Model)
+{
+    <h1>@developer.Projects.ToList()</h1>
+}

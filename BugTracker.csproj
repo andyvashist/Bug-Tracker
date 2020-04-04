@@ -187,12 +187,25 @@
     <Compile Include="Migrations\202004022105242_PendingMigrations.Designer.cs">
       <DependentUpon>202004022105242_PendingMigrations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004031740384_AddedRealtionBetweenDeveloperAndProject.cs" />
+    <Compile Include="Migrations\202004031740384_AddedRealtionBetweenDeveloperAndProject.Designer.cs">
+      <DependentUpon>202004031740384_AddedRealtionBetweenDeveloperAndProject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004031923078_UnknownMigration.cs" />
+    <Compile Include="Migrations\202004031923078_UnknownMigration.Designer.cs">
+      <DependentUpon>202004031923078_UnknownMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004042352067_AddedTicketModelToDB.cs" />
+    <Compile Include="Migrations\202004042352067_AddedTicketModelToDB.Designer.cs">
+      <DependentUpon>202004042352067_AddedTicketModelToDB.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Developer.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\Ticket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -413,6 +426,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004022105242_PendingMigrations.resx">
       <DependentUpon>202004022105242_PendingMigrations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004031740384_AddedRealtionBetweenDeveloperAndProject.resx">
+      <DependentUpon>202004031740384_AddedRealtionBetweenDeveloperAndProject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004031923078_UnknownMigration.resx">
+      <DependentUpon>202004031923078_UnknownMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004042352067_AddedTicketModelToDB.resx">
+      <DependentUpon>202004042352067_AddedTicketModelToDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
