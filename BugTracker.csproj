@@ -199,6 +199,10 @@
     <Compile Include="Migrations\202004042352067_AddedTicketModelToDB.Designer.cs">
       <DependentUpon>202004042352067_AddedTicketModelToDB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004051733173_AssociatedProjectsAndTickets.cs" />
+    <Compile Include="Migrations\202004051733173_AssociatedProjectsAndTickets.Designer.cs">
+      <DependentUpon>202004051733173_AssociatedProjectsAndTickets.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -435,6 +439,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004042352067_AddedTicketModelToDB.resx">
       <DependentUpon>202004042352067_AddedTicketModelToDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004051733173_AssociatedProjectsAndTickets.resx">
+      <DependentUpon>202004051733173_AssociatedProjectsAndTickets.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

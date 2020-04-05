@@ -9,6 +9,10 @@ namespace BugTracker.Controllers
     public class ProjectController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        public ProjectController()
+        {
+            db = new ApplicationDbContext();
+        }
 
         public ActionResult Index()
         {
@@ -37,7 +41,7 @@ namespace BugTracker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Description")] Project project)
+        public ActionResult Create(Project project)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +69,7 @@ namespace BugTracker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Description")] Project project)
+        public ActionResult Edit(Project project)
         {
             if (ModelState.IsValid)
             {

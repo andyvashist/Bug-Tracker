@@ -8,5 +8,7 @@ namespace BugTracker.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public List<Developer> Developers { get; set; }
+
+        public ICollection<Ticket> Tickets { get; set; }
     }
 }
