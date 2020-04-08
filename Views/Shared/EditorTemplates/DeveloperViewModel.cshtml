@@ -1,0 +1,7 @@
+﻿@model DeveloperViewModel
+@using BugTracker.ViewModels.Developer;
+    <fieldset>
+        @Html.HiddenFor(d=>d.Id)
+        @Html.CheckBoxFor(d=>d.IsSelected)
+        @Html.DisplayFor(d=>d.FirstName)
+    </fieldset>

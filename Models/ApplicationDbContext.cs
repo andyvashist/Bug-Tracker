@@ -33,6 +33,7 @@ namespace BugTracker.Models
         public DbSet<Project> Projects { get; set; }
         public DbSet<Developer> Developers { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Manager> Managers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

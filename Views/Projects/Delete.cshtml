@@ -30,7 +30,7 @@
 
     </dl>
 
-    @using (Html.BeginForm("Delete","Project",FormMethod.Post,new { Model.Id})) {
+    @using (Html.BeginForm("Delete","Projects",new { Model.Id},FormMethod.Post,new { })) {
         @Html.AntiForgeryToken()
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |

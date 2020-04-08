@@ -1,4 +1,7 @@
 ﻿using BugTracker.Models;
+using BugTracker.ViewModels.Developer;
+using BugTracker.ViewModels.Project;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -36,23 +39,45 @@ namespace BugTracker.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            var developers = db.Developers.ToList();
+            var selectedDevelopers = new List<SelectedDevelopers>();
+            foreach (var developer in developers)
+            {
+                selectedDevelopers.Add(new SelectedDevelopers
+                {
+                    Id = developer.Id,
+                    FirstName = developer.FirstName,
+                    IsSelected = false
+                });
+            }
+            var project = new ProjectViewModel { SelectedDevelopers = selectedDevelopers };
+
+            return View(project);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Project project)
+        public ActionResult Create(ProjectViewModel project)
         {
             if (ModelState.IsValid)
             {
-                db.Projects.Add(project);
+                var Project = new Project
+                {
+                    Title = project.Title,
+                    Description = project.Description
+                };
+                AddOrUpdateDevelopers(Project, project.SelectedDevelopers);
+
+                db.Projects.Add(Project);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
             return View(project);
         }
+
+
 
         public ActionResult Edit(int? id)
         {
@@ -60,44 +85,105 @@ namespace BugTracker.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = db.Projects.Find(id);
-            if (project == null)
-            {
+
+            var data = db.Projects
+                .Where(p => p.Id == id)
+                .Select(p => new
+                {
+                    ViewModel = new ProjectViewModel
+                    {
+                        Id = p.Id,
+                        Title = p.Title,
+                        Description = p.Description,
+                    },
+                    DeveloperIds = p.Developers.Select(d => d.Id)
+                })
+                .SingleOrDefault();
+
+            if (data == null)
                 return HttpNotFound();
+
+            //load all companies from db
+            data.ViewModel.Developers = db.Developers
+                .Select(d => new DeveloperViewModel
+                {
+                    Id = d.Id,
+                    FirstName = d.FirstName
+                })
+                .ToList();
+
+            //SET IS SELECTED TRUE IF DEVELOPER IS ALREADY SELECTED
+
+            foreach (var developer in data.ViewModel.Developers)
+            {
+                developer.IsSelected = data.DeveloperIds.Contains(developer.Id);
             }
-            return View(project);
+
+
+            return View(data.ViewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Project project)
+        public ActionResult Edit(ProjectViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(project).State = EntityState.Modified;
-                db.SaveChanges();
+                var project = db.Projects.Include(p => p.Developers)
+                            .SingleOrDefault(p => p.Id == viewModel.Id);
+
+                if (project != null)
+                {
+                    project.Title = viewModel.Title;
+                    project.Description = viewModel.Description;
+
+                    foreach (var developer in viewModel.Developers)
+                    {
+                        if (developer.IsSelected)
+                        {
+                            if (!project.Developers.Any(
+                               d => d.Id == developer.Id))
+                            {
+                                var selectedDeveloper = new Developer
+                                {
+                                    Id = developer.Id
+                                };
+
+                                db.Developers.Attach(selectedDeveloper);
+                                project.Developers.Add(selectedDeveloper);
+
+                            }
+                        }
+
+                        else
+                        {
+                            var removedDeveloper = project.Developers
+                                                 .SingleOrDefault(d => d.Id == developer.Id);
+
+                            if (removedDeveloper != null)
+                            {
+                                project.Developers.Remove(removedDeveloper);
+                            }
+                        }
+                    }
+
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
-            return View(project);
+            return View(viewModel);
         }
 
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Project project = db.Projects.Find(id);
-            if (project == null)
-            {
-                return HttpNotFound();
-            }
-            return View(project);
+            var viewModel = db.Projects.Find(id);
+
+            return View(viewModel);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost,ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirm(int id)
         {
             Project project = db.Projects.Find(id);
             db.Projects.Remove(project);
@@ -105,13 +191,20 @@ namespace BugTracker.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
+        private void AddOrUpdateDevelopers(Project project, IEnumerable<SelectedDevelopers> selectedDevelopers)
         {
-            if (disposing)
+            if (selectedDevelopers != null)
             {
-                db.Dispose();
+                foreach (var selectedDeveloper in selectedDevelopers)
+                {
+                    if (selectedDeveloper.IsSelected)
+                    {
+                        var developer = new Developer { Id = selectedDeveloper.Id };
+                        db.Developers.Attach(developer);
+                        project.Developers.Add(developer);
+                    }
+                }
             }
-            base.Dispose(disposing);
         }
     }
 }
