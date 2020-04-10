@@ -13,5 +13,8 @@ namespace BugTracker.ViewModels.Project
         public List<SelectedDevelopers> SelectedDevelopers { get; set; }
         [Display(Name = "Edit Developers")]
         public List<DeveloperViewModel> Developers { get; set; }
+        public List<ViewModels.ManagerViewModel> Managers { get; set; }
+        public int ManagerId { get; set; }
+        public ViewModels.ManagerViewModel Manager { get; set; }
     }
 }

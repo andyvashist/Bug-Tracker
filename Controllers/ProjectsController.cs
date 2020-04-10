@@ -1,4 +1,5 @@
 ﻿using BugTracker.Models;
+using BugTracker.ViewModels;
 using BugTracker.ViewModels.Developer;
 using BugTracker.ViewModels.Project;
 using System.Collections.Generic;
@@ -39,9 +40,12 @@ namespace BugTracker.Controllers
 
         public ActionResult Create()
         {
-            var developers = db.Developers.ToList();
+            var developersInDb = db.Developers.ToList();
+            var managersInDb = db.Managers.ToList();
             var selectedDevelopers = new List<SelectedDevelopers>();
-            foreach (var developer in developers)
+            var managers = new List<ManagerViewModel>();
+
+            foreach (var developer in developersInDb)
             {
                 selectedDevelopers.Add(new SelectedDevelopers
                 {
@@ -50,7 +54,19 @@ namespace BugTracker.Controllers
                     IsSelected = false
                 });
             }
-            var project = new ProjectViewModel { SelectedDevelopers = selectedDevelopers };
+
+            foreach (var manager in managersInDb)
+            {
+                managers.Add(new ManagerViewModel
+                {
+                    Id = manager.Id,
+                    FirstName = manager.FirstName,
+                    IsSelected = false
+                });
+            }
+
+
+            var project = new ProjectViewModel { SelectedDevelopers = selectedDevelopers, Managers = managers };
 
             return View(project);
         }
@@ -65,8 +81,17 @@ namespace BugTracker.Controllers
                 var Project = new Project
                 {
                     Title = project.Title,
-                    Description = project.Description
+                    Description = project.Description,
+
                 };
+
+                foreach (var manager in project.Managers)
+                {
+                    if (manager.IsSelected)
+                    {
+                        Project.ManagerId = manager.Id;
+                    }
+                }
                 AddOrUpdateDevelopers(Project, project.SelectedDevelopers);
 
                 db.Projects.Add(Project);
@@ -181,7 +206,7 @@ namespace BugTracker.Controllers
             return View(viewModel);
         }
 
-        [HttpPost,ActionName("Delete")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirm(int id)
         {
@@ -206,5 +231,16 @@ namespace BugTracker.Controllers
                 }
             }
         }
+
+        //private void AddOrUpdateManager(Project project,IEnumerable<ManagerViewModel> selectedManagers)
+        //{
+        //    if (selectedManagers != null)
+        //    {
+        //        foreach (var manager in selectedManagers)
+        //        {
+        //            project.
+        //        }
+        //    }
+        //}
     }
 }

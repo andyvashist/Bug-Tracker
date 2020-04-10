@@ -171,6 +171,7 @@
     <Compile Include="Controllers\DevelopersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ManagersController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -212,10 +213,15 @@
     <Compile Include="Migrations\202004062210196_DeletedIsSelectedFromDevelopersInDb.Designer.cs">
       <DependentUpon>202004062210196_DeletedIsSelectedFromDevelopersInDb.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004080727295_AddedManagersToDb.cs" />
+    <Compile Include="Migrations\202004080727295_AddedManagersToDb.Designer.cs">
+      <DependentUpon>202004080727295_AddedManagersToDb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Developer.cs" />
+    <Compile Include="Models\Manager.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Ticket.cs" />
@@ -223,6 +229,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\Developer\DeveloperViewModel.cs" />
     <Compile Include="ViewModels\Developer\SelectedDevelopers.cs" />
+    <Compile Include="ViewModels\Manager\ManagerViewModel.cs" />
     <Compile Include="ViewModels\Project\ProjectViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -423,6 +430,12 @@
     <Content Include="Views\Tickets\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\SelectedDevelopers.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DeveloperViewModel.cshtml" />
+    <Content Include="Views\Managers\Create.cshtml" />
+    <Content Include="Views\Managers\Delete.cshtml" />
+    <Content Include="Views\Managers\Details.cshtml" />
+    <Content Include="Views\Managers\Edit.cshtml" />
+    <Content Include="Views\Managers\Index.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ManagerViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -467,6 +480,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004062210196_DeletedIsSelectedFromDevelopersInDb.resx">
       <DependentUpon>202004062210196_DeletedIsSelectedFromDevelopersInDb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004080727295_AddedManagersToDb.resx">
+      <DependentUpon>202004080727295_AddedManagersToDb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
